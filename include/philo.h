@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:22:50 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/03 14:03:49 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:10:45 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void		wait_time(t_philo *philo, u_int64_t time);
 bool		grab_forks(t_philo *philo);
 bool		is_dead(t_philo *philo);
 void		logs(t_philo *philo, int status);
+bool		not_finished(t_data *data);
 /// FREE ///
 void    	free_data(t_data *data);
 
