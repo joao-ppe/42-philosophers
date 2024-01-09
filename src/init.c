@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 17:40:19 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/03 18:20:16 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2023/12/28 17:37:58 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	init_philos(t_data *data)
 		data->philos[i].status = -1;
 		data->philos[i].full = false;
 		data->philos[i].time_to_die = 0;
-		data->philos[i].finished = false;
 		pthread_mutex_init(&data->philos[i].lock, NULL);
 	}
 }
@@ -48,7 +47,7 @@ static t_data	*init_threads(t_data *data)
 	return (data);
 }
 
-static void set_forks(t_data *data, int i)
+static void	set_forks(t_data *data, int i)
 {
 	while (++i < data->philo_num - 1)
 	{
@@ -63,7 +62,7 @@ static void set_forks(t_data *data, int i)
 			data->philos[i].fork[RIGHT] = &data->forks[i + 1];
 		}
 	}
-	if (i == data->philo_num - 1)
+	if (i % 2)
 	{
 		data->philos[i].fork[LEFT] = &data->forks[i - 1];
 		data->philos[i].fork[RIGHT] = &data->forks[i];
@@ -75,7 +74,6 @@ static void set_forks(t_data *data, int i)
 	}
 }
 
-
 t_data	*init_data(int ac, char **av)
 {
 	t_data	*data;
@@ -84,9 +82,9 @@ t_data	*init_data(int ac, char **av)
 	if (!data)
 		return (0);
 	data->philo_num = ft_atol(av[1]);
-	data->death_time = ft_atol(av[2]);
-	data->eat_time = ft_atol(av[3]);
-	data->sleep_time = ft_atol(av[4]);
+	data->death_time = (u_int64_t) ft_atol(av[2]);
+	data->eat_time = (u_int64_t) ft_atol(av[3]);
+	data->sleep_time = (u_int64_t) ft_atol(av[4]);
 	data->finished = false;
 	data->philos_full = 0;
 	if (ac == 6)

@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/03 18:11:00 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/09 19:35:17 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	wait_time(t_philo *philo, u_int64_t time)
 
 bool	grab_forks(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->lock);
 	pthread_mutex_lock(philo->fork[LEFT]);
+	pthread_mutex_unlock(&philo->lock);
 	logs(philo, FORK);
 	if (is_dead(philo))
 	{
@@ -40,7 +42,7 @@ bool	grab_forks(t_philo *philo)
 	return (true);
 }
 
-/* bool	check_meals(t_philo *philo)
+bool	check_meals(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->lock);
 	pthread_mutex_lock(&philo->data->lock);
@@ -55,7 +57,7 @@ bool	grab_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->lock);
 	pthread_mutex_unlock(&philo->data->lock);
 	return (false);
-} */
+}
 
 bool	is_dead(t_philo *philo)
 {
@@ -63,7 +65,11 @@ bool	is_dead(t_philo *philo)
 	if (get_time() > philo->time_to_die)
 	{
 		if (philo->status != DEAD)
+		{
 			philo->status = DEAD;
+			//printf("||||||||||| %llu %d DIED HERE\n",
+			//	(get_time() - philo->data->start_time), philo->id);
+		}
 		pthread_mutex_unlock(&philo->lock);
 		return (true);
 	}
@@ -87,19 +93,10 @@ void	logs(t_philo *philo, int status)
 		printf("%lu %d grabbed a fork\n",
 			(get_time() - philo->data->start_time), philo->id);
 	else if (status == DEAD)
+	{
 		printf("%lu %d died\n",
 			(get_time() - philo->data->start_time), philo->id);
-	pthread_mutex_unlock(&philo->data->log);
-}
-
-bool	not_finished(t_data *data)
-{
-	pthread_mutex_lock(&data->lock);
-	if (data->finished == true)
-	{
-		pthread_mutex_unlock(&data->lock);
-		return (true);
+		return ;
 	}
-	pthread_mutex_unlock(&data->lock);
-	return (false);
+	pthread_mutex_unlock(&philo->data->log);
 }

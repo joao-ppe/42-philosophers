@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 22:16:46 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/03 17:53:07 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:24:07 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	sleeping(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->lock);
-	if (is_dead(philo) || philo->data->finished)
+	if (is_dead(philo))
 		return ;
-	pthread_mutex_unlock(&philo->data->lock);
 	pthread_mutex_lock(&philo->lock);
 	philo->status = SLEEPING;
 	pthread_mutex_unlock(&philo->lock);
@@ -27,7 +25,7 @@ void	sleeping(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
-	if (is_dead(philo) || philo->data->finished)
+	if (is_dead(philo))
 		return ;
 	pthread_mutex_lock(&philo->lock);
 	philo->status = THINKING;
@@ -38,7 +36,7 @@ void	thinking(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
-	if (is_dead(philo) || philo->data->finished)
+	if (is_dead(philo))
 		return ;
 	if (!grab_forks(philo))
 		return ;
