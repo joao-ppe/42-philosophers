@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:16 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/03 14:26:30 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:56:43 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,22 @@ void	reunion(t_data *data)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	data->start_time = get_time();
 	pthread_mutex_lock(&data->lock);
-	while (i < data->philo_num)
+	while (++i < data->philo_num)
 	{
-		if (pthread_create(&data->table[i], NULL, &routine, &data->philos[i]))
-			return ;
-		i++;
+		if (!pthread_create(&data->table[i], NULL, &routine, &data->philos[i]))
+		{
+			printf("//////////// Philo ID: %d created!\n", i);
+			//return ;
+		}
 	}
 	pthread_mutex_unlock(&data->lock);
 	if (pthread_create(&data->monitor[0], NULL, &monitoring, data))
 		return ;
-	pthread_join(data->monitor[0], NULL);
+	if (!pthread_join(data->monitor[0], NULL))
+		printf("//////////// Deleted monitor!\n");
 	return ;
 }
 
@@ -49,16 +52,14 @@ void	*routine(void *philosopher)
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
-		pthread_mutex_lock(&philo->data->lock);
-		if (philo->data->finished == true)
+		if (routine_finished(philo->data))
 		{
 			pthread_mutex_lock(&philo->lock);
 			philo->finished = true;
 			pthread_mutex_unlock(&philo->lock);
+			printf("//////////// Philo ID: %d finished routine!\n", philo->id);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->data->lock);
-
 	}
 	return (NULL);
 }
@@ -72,30 +73,33 @@ void	*monitoring(void *struc)
 	i = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&data->lock);
 		pthread_mutex_lock(&data->philos[i].lock);
 		if (data->philos[i].status == DEAD)
 		{
-			logs(&data->philos[i], DEAD);
+			pthread_mutex_unlock(&data->philos[i].lock);
+			pthread_mutex_lock(&data->lock);
 			data->finished = true;
 			pthread_mutex_unlock(&data->lock);
-			pthread_mutex_unlock(&data->philos[i].lock);
+			logs(&data->philos[i], DEAD);
 			break ;
 		}
 		pthread_mutex_unlock(&data->philos[i].lock);
-		pthread_mutex_unlock(&data->lock);
 		i++;
 		if (i == (data->philo_num))
 			i = 0;
 	}
-	i = -1;
-	while (++i < data->philo_num)
+	i = 0;
+	while (i < data->philo_num)
 	{
-		//printf("Terminou o monitor %d\n", i);
 		pthread_mutex_lock(&data->philos[i].lock);
 		if (data->philos[i].finished)
-			pthread_join(data->table[i], NULL);	
+		{
+			if (!pthread_join(data->table[i], NULL))
+				printf("//////////// Philo ID: %d joined!\n", i);
+			i++;
+		}
 		pthread_mutex_unlock(&data->philos[i].lock);
+		//printf("//////////// Terminou o philo %d\n", i);
 	}
 	return (NULL);
 }

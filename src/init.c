@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 17:40:19 by joao-ppe          #+#    #+#             */
-/*   Updated: 2023/12/28 17:37:58 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:07:09 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	init_philos(t_data *data)
 		data->philos[i].status = -1;
 		data->philos[i].full = false;
 		data->philos[i].time_to_die = 0;
+		data->philos[i].finished = false;
 		pthread_mutex_init(&data->philos[i].lock, NULL);
 	}
 }
@@ -33,8 +34,7 @@ static t_data	*init_threads(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	data->finished = false;
+	i = -1;
 	data->monitor = malloc(sizeof(pthread_t) * 1);
 	data->table = malloc(sizeof(pthread_t) * data->philo_num);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_num);
@@ -42,8 +42,8 @@ static t_data	*init_threads(t_data *data)
 		return (NULL);
 	pthread_mutex_init(&data->lock, NULL);
 	pthread_mutex_init(&data->log, NULL);
-	while (i < data->philo_num)
-		pthread_mutex_init(&data->forks[i++], NULL);
+	while (++i < data->philo_num)
+		pthread_mutex_init(&data->forks[i], NULL);
 	return (data);
 }
 
