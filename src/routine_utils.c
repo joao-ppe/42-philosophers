@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 22:31:54 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:16:03 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	wait_time(t_philo *philo, u_int64_t time)
 {
-	if ((get_time() + time) <= philo->time_to_die)
+	if ((get_time() + time) >= philo->time_to_die)
 		usleep(time * 1000);
 	else
 		usleep((philo->time_to_die - get_time()) * 1000);
@@ -59,8 +59,8 @@ bool	grab_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->lock);
 	pthread_mutex_unlock(&philo->data->lock);
 	return (false);
-} */
-
+}
+ */
 bool	routine_finished(t_data *data)
 {
 	pthread_mutex_lock(&data->lock);
@@ -79,10 +79,7 @@ bool	is_dead(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->lock);
 		if (philo->status != DEAD)
-		{
-			//printf("--------------------- PHILO %d DIED AT %lu\n", philo->id, get_time() - philo->data->start_time);
 			philo->status = DEAD;
-		}
 		pthread_mutex_unlock(&philo->lock);
 		return (true);
 	}
