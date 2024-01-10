@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 17:40:19 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/09 22:07:09 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:06:33 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static t_data	*init_threads(t_data *data)
 	int	i;
 
 	i = -1;
-	data->monitor = malloc(sizeof(pthread_t) * 1);
 	data->table = malloc(sizeof(pthread_t) * data->philo_num);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_num);
-	if (!data->table || !data->forks)
+	data->monitor = malloc(sizeof(pthread_t) * 1);
+	if (!data->table || !data->forks || !data->monitor)
 		return (NULL);
 	pthread_mutex_init(&data->lock, NULL);
 	pthread_mutex_init(&data->log, NULL);

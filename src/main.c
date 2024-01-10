@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:34:50 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/03 12:04:03 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:05:58 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	}
 	reunion(data);
 	free_data(data);
-	printf("the end.\n");
+	/* printf("the end.\n"); */
 	//write(1, "\n", 1);
 	return (0);
 }

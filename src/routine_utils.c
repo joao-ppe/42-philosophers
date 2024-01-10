@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/09 23:58:04 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:31:54 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,20 @@ void	wait_time(t_philo *philo, u_int64_t time)
 
 bool	grab_forks(t_philo *philo)
 {
+	if (routine_finished(philo->data))
+		return (false);
 	if (is_dead(philo))
 		return (false);
 	pthread_mutex_lock(philo->fork[LEFT]);
 	logs(philo, FORK);
-	if (is_dead(philo))
+	if (is_dead(philo) || routine_finished(philo->data))
 	{
 		pthread_mutex_unlock(philo->fork[LEFT]);
 		return (false);
 	}
 	pthread_mutex_lock(philo->fork[RIGHT]);
 	logs(philo, FORK);
-	if (is_dead(philo))
+	if (is_dead(philo) || routine_finished(philo->data))
 	{
 		pthread_mutex_unlock(philo->fork[LEFT]);
 		pthread_mutex_unlock(philo->fork[RIGHT]);
@@ -73,15 +75,17 @@ bool	routine_finished(t_data *data)
 
 bool	is_dead(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->lock);
 	if (get_time() > philo->time_to_die)
 	{
+		pthread_mutex_lock(&philo->lock);
 		if (philo->status != DEAD)
+		{
+			//printf("--------------------- PHILO %d DIED AT %lu\n", philo->id, get_time() - philo->data->start_time);
 			philo->status = DEAD;
+		}
 		pthread_mutex_unlock(&philo->lock);
 		return (true);
 	}
-	pthread_mutex_unlock(&philo->lock);
 	return (false);
 }
 
@@ -101,10 +105,7 @@ void	logs(t_philo *philo, int status)
 		printf("%lu %d grabbed a fork\n",
 			(get_time() - philo->data->start_time), philo->id);
 	else if (status == DEAD)
-	{
-		printf("%lu %d died\n",
+		printf("%lu %d died ---------------------------\n",
 			(get_time() - philo->data->start_time), philo->id);
-		return ;
-	}
 	pthread_mutex_unlock(&philo->data->log);
 }

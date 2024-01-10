@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:18 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/09 23:11:27 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/10 19:59:09 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ void    free_data(t_data *data)
 	}
 	pthread_mutex_destroy(&data->lock);
 	pthread_mutex_destroy(&data->log);
-	if (data->monitor)
+ 	if (data->monitor)
 		free(data->monitor);
-	if (data->table)
-		free(data->table);
 	if (data->philos)
 		free(data->philos);
 	if (data->forks)
 		free(data->forks);
-	free(data);
+ 	if (data->table)
+		free(data->table);
+	if (data)
+		free(data);
 }
