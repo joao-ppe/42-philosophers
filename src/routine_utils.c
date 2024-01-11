@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 23:16:03 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:23:17 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	wait_time(t_philo *philo, u_int64_t time)
 {
 	if ((get_time() + time) >= philo->time_to_die)
-		usleep(time * 1000);
-	else
 		usleep((philo->time_to_die - get_time()) * 1000);
+	else
+		usleep(time * 1000);
 }
 
 bool	grab_forks(t_philo *philo)
