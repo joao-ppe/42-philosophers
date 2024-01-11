@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:16 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 23:15:59 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:45:55 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ void	reunion(t_data *data)
 	if (pthread_create(&data->monitor[0], NULL, &monitoring, data))
 		return ;
 	i = -1;
-	if (pthread_join(data->monitor[0], NULL))
-		return ;
 	while (++i < data->philo_num)
 	{
-		if (pthread_join(data->table[i], NULL))
+		if (!pthread_join(data->table[i], NULL))
+			//printf("==================== Philo %d joined! ==============\n", data->philos[i].id);	
 			return ;
 	}
+	if (pthread_join(data->monitor[0], NULL))
+		return ;
 	return ;
 }
 

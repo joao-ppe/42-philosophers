@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/11 00:23:17 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:43:40 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,17 @@ bool	is_dead(t_philo *philo)
 void	logs(t_philo *philo, int status)
 {
 	pthread_mutex_lock(&philo->data->log);
-	if (status == EATING)
+	if (status == EATING && !routine_finished(philo->data))
 		printf("%lu %d is eating\n",
 			(get_time() - philo->data->start_time), philo->id);
-	else if (status == THINKING)
+	else if (status == THINKING && !routine_finished(philo->data))
 		printf("%lu %d is thinking\n",
 			(get_time() - philo->data->start_time), philo->id);
-	else if (status == SLEEPING)
+	else if (status == SLEEPING && !routine_finished(philo->data))
 		printf("%lu %d is sleeping\n",
 			(get_time() - philo->data->start_time), philo->id);
-	else if (status == FORK)
-		printf("%lu %d grabbed a fork\n",
+	else if (status == FORK && !routine_finished(philo->data))
+		printf("%lu %d has taken a fork\n",
 			(get_time() - philo->data->start_time), philo->id);
 	else if (status == DEAD)
 		printf("%lu %d died ---------------------------\n",

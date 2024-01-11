@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 22:16:46 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 22:35:38 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:41:57 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	sleeping(t_philo *philo)
 	philo->status = SLEEPING;
 	pthread_mutex_unlock(&philo->lock);
 	logs(philo, SLEEPING);
+	if (!routine_finished(philo->data))
+		return ;
 	wait_time(philo, philo->data->sleep_time);
 }
 
@@ -35,6 +37,8 @@ void	thinking(t_philo *philo)
 	philo->status = THINKING;
 	pthread_mutex_unlock(&philo->lock);
 	logs(philo, THINKING);
+	if (!routine_finished(philo->data))
+		return ;
 	wait_time(philo, 5);
 }
 
