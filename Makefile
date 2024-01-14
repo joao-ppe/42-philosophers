@@ -6,7 +6,7 @@
 #    By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/13 15:07:56 by joao-ppe          #+#    #+#              #
-#    Updated: 2024/01/11 00:28:17 by joao-ppe         ###   ########.fr        #
+#    Updated: 2024/01/12 17:47:33 by joao-ppe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 NAME = philo
 
-SRC = src/main.c src/utils.c src/verifications.c src/init.c src/routine.c src/routine_utils.c src/actions.c src/free.c
+SRC = src/main.c src/utils.c src/verifications.c src/init.c src/routines.c src/routine_utils.c src/actions.c src/free.c
 
 OBJ = $(SRC:.c=.o)
 

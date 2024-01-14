@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:42:53 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/02 15:57:54 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:03:59 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,33 @@ u_int64_t	get_time(void)
 		return (0);
 	}
 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
+}
+
+void	wait_time(t_philo *philo, u_int64_t time)
+{
+	if ((get_time() + time) >= philo->time_to_die)
+		usleep((philo->time_to_die - get_time()) * 1000);
+	else
+		usleep(time * 1000);
+}
+
+void	logs(t_philo *philo, int status)
+{
+	pthread_mutex_lock(&philo->data->log);
+	if (status == EATING && !routine_finished(philo->data))
+		printf("%lu %d is eating\n",
+			(get_time() - philo->data->start_time), philo->id);
+	else if (status == THINKING && !routine_finished(philo->data))
+		printf("%lu %d is thinking\n",
+			(get_time() - philo->data->start_time), philo->id);
+	else if (status == SLEEPING && !routine_finished(philo->data))
+		printf("%lu %d is sleeping\n",
+			(get_time() - philo->data->start_time), philo->id);
+	else if (status == FORK && !routine_finished(philo->data))
+		printf("%lu %d has taken a fork\n",
+			(get_time() - philo->data->start_time), philo->id);
+	else if (status == DEAD)
+		printf("%lu %d died\n",
+			(get_time() - philo->data->start_time), philo->id);
+	pthread_mutex_unlock(&philo->data->log);
 }

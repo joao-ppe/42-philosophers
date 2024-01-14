@@ -6,16 +6,16 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:18 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 19:59:09 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:02:34 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void    free_data(t_data *data)
+void	free_data(t_data *data)
 {
 	int	i;
-	
+
 	if (!data)
 		return ;
 	i = -1;
@@ -26,13 +26,13 @@ void    free_data(t_data *data)
 	}
 	pthread_mutex_destroy(&data->lock);
 	pthread_mutex_destroy(&data->log);
- 	if (data->monitor)
+	if (data->monitor)
 		free(data->monitor);
 	if (data->philos)
 		free(data->philos);
 	if (data->forks)
 		free(data->forks);
- 	if (data->table)
+	if (data->table)
 		free(data->table);
 	if (data)
 		free(data);

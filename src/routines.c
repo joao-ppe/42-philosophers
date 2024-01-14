@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:16 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/11 00:45:55 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/13 18:17:40 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+/* static void	print_meals(t_data *data)
+{
+	int	i = -1;
+	while (++i < data->philo_num)
+		printf("============= Philo %d meals: %d =============\n", data->philos[i].id, data->philos[i].meal_count);
+	return ;
+} */
 
 void	reunion(t_data *data)
 {
@@ -28,14 +36,13 @@ void	reunion(t_data *data)
 	if (pthread_create(&data->monitor[0], NULL, &monitoring, data))
 		return ;
 	i = -1;
-	while (++i < data->philo_num)
-	{
-		if (!pthread_join(data->table[i], NULL))
-			//printf("==================== Philo %d joined! ==============\n", data->philos[i].id);	
-			return ;
-	}
 	if (pthread_join(data->monitor[0], NULL))
 		return ;
+	while (++i < data->philo_num)
+	{
+		if (pthread_join(data->table[i], NULL))
+			return ;
+	}
 	return ;
 }
 
@@ -74,13 +81,9 @@ void	*monitoring(void *struc)
 	while (1)
 	{
 		pthread_mutex_lock(&data->philos[i].lock);
-		if (data->philos[i].status == DEAD)
+		if (check_philo_status(&data->philos[i]))
 		{
-			pthread_mutex_lock(&data->lock);
-			data->finished = true;
-			pthread_mutex_unlock(&data->lock);
 			pthread_mutex_unlock(&data->philos[i].lock);
-			logs(&data->philos[i], DEAD);
 			break ;
 		}
 		pthread_mutex_unlock(&data->philos[i].lock);
@@ -88,5 +91,6 @@ void	*monitoring(void *struc)
 		if (i == (data->philo_num))
 			i = 0;
 	}
+	//print_meals(data);
 	return (NULL);
 }

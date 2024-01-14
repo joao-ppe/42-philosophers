@@ -6,12 +6,12 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 17:40:19 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 20:06:33 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:02:13 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
- 
+
 static void	init_philos(t_data *data)
 {
 	int	i;
@@ -90,7 +90,7 @@ t_data	*init_data(int ac, char **av)
 	if (ac == 6)
 		data->meals = ft_atol(av[5]);
 	else
-		data->meals = 0;
+		data->meals = -1;
 	data->start_time = 0;
 	data->philos = malloc(sizeof(t_philo) * data->philo_num);
 	if (!data->philos)

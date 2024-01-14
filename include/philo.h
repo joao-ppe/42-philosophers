@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:22:50 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/10 23:02:05 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:40:21 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ enum e_actions
 	EATING,
 	SLEEPING,
 	THINKING,
-	FORK,
-	FULL
+	FORK
 };
 
 /*------------- Structures ---------------*/
@@ -85,6 +84,8 @@ t_data		*init_data(int ac, char **av);
 long		ft_atol(const char *str);
 int			ft_isdigit(int c);
 u_int64_t	get_time(void);
+void		wait_time(t_philo *philo, u_int64_t time);
+void		logs(t_philo *philo, int status);
 // ROUTINE ///
 void		reunion(t_data *data);
 void		*routine(void *philo);
@@ -94,13 +95,13 @@ void		sleeping(t_philo *philo);
 void		thinking(t_philo *philo);
 void		eating(t_philo *philo);
 /// ROUTINE_UTILS ///
-void		wait_time(t_philo *philo, u_int64_t time);
 bool		grab_forks(t_philo *philo);
 bool		is_dead(t_philo *philo);
 bool		routine_finished(t_data *data);
-void		logs(t_philo *philo, int status);
+bool		check_meals(t_philo *philo);
+bool		check_philo_status(t_philo *philo);
 
 /// FREE ///
-void    	free_data(t_data *data);
+void		free_data(t_data *data);
 
 #endif
