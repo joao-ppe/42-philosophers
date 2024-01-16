@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/12 17:40:08 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:43:24 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 bool	grab_forks(t_philo *philo)
 {
-	if (routine_finished(philo->data))
-		return (false);
-	if (is_dead(philo))
+	if (is_dead(philo) || routine_finished(philo->data))
 		return (false);
 	pthread_mutex_lock(philo->fork[LEFT]);
 	logs(philo, FORK);
@@ -38,23 +36,17 @@ bool	grab_forks(t_philo *philo)
 
 bool	check_meals(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->lock);
 	if (philo->data->meals == -1)
-	{
-		pthread_mutex_unlock(&philo->data->lock);
 		return (false);
-	}
-	if ((philo->meal_count >= philo->data->meals) && !philo->full)
+	if ((philo->meal_count >= philo->data->meals)
+		&& philo->full == false)
 	{
 		philo->full = true;
 		philo->data->philos_full++;
+		//printf("====== PHILO %d IS FULL | PHILOS FULL: %d =======\n", philo->id, philo->data->philos_full);
 	}
 	if (philo->data->philo_num == philo->data->philos_full)
-	{
-		pthread_mutex_unlock(&philo->data->lock);
 		return (true);
-	}
-	pthread_mutex_unlock(&philo->data->lock);
 	return (false);
 }
 

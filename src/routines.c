@@ -6,10 +6,26 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:16 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/13 18:17:40 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:00:33 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* Example 	Expected Result
+./philo 4 500 200 1.2 	Invalid argument.
+./philo 4 0 200 200 	Invalid argument.
+./philo 4 -500 200 200 	Invalid argument.
+./philo 4 214748364732 200 200 	Invalid argument.
+./philo 1 200 200 200 	Philosopher 1 takes a fork and dies after 200 ms.
+./philo 4 500 200 2147483647 	A philosopher dies after 500 ms
+./philo 4 200 210 200 	A philosopher dies, it should display the death before 210 ms.
+./philo 4 310 200 200 	A philosopher dies.
+./philo 5 800 200 200 7 	The program stops when each philosopher has eaten 7 times.
+./philo 5 800 200 200 	No philosopher dies.
+./philo 4 2147483647 200 200 	No philosopher dies.
+./philo 5 800 200 150 	No philosopher dies.
+./philo 3 610 200 80 	No philosopher dies.
+./philo 2 800 200 200 	No philosopher dies.
+./philo 4 410 200 200 	No philosopher dies. */
 #include "../include/philo.h"
 
 /* static void	print_meals(t_data *data)
@@ -56,7 +72,7 @@ void	*routine(void *philosopher)
 	pthread_mutex_lock(&philo->lock);
 	philo->time_to_die = philo->data->death_time + philo->data->start_time;
 	pthread_mutex_unlock(&philo->lock);
-	if (philo->id % 2 == 0)
+	if ((philo->id % 2) || philo->id == 0)
 		thinking(philo);
 	while (1)
 	{

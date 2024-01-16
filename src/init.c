@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 17:40:19 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/12 17:02:13 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:49:58 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_data	*init_threads(t_data *data)
 
 static void	set_forks(t_data *data, int i)
 {
-	while (++i < data->philo_num - 1)
+	while (i < data->philo_num - 1)
 	{
 		if (i % 2)
 		{
@@ -61,16 +61,17 @@ static void	set_forks(t_data *data, int i)
 			data->philos[i].fork[LEFT] = &data->forks[i];
 			data->philos[i].fork[RIGHT] = &data->forks[i + 1];
 		}
+		i++;
 	}
-	if (i % 2)
+	if (data->philo_num % 2 == 0)
 	{
 		data->philos[i].fork[LEFT] = &data->forks[i - 1];
 		data->philos[i].fork[RIGHT] = &data->forks[i];
 	}
 	else
 	{
-		data->philos[i].fork[LEFT] = &data->forks[i];
-		data->philos[i].fork[RIGHT] = &data->forks[0];
+		data->philos[i].fork[LEFT] = &data->forks[0];
+		data->philos[i].fork[RIGHT] = &data->forks[i];
 	}
 }
 
@@ -97,6 +98,6 @@ t_data	*init_data(int ac, char **av)
 		return (NULL);
 	init_threads(data);
 	init_philos(data);
-	set_forks(data, -1);
+	set_forks(data, 0);
 	return (data);
 }

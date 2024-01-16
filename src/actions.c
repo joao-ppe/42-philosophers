@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 22:16:46 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/13 18:00:19 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:59:51 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	sleeping(t_philo *philo)
 {
-	if (routine_finished(philo->data))
-		return ;
-	if (is_dead(philo))
+	if (is_dead(philo) || routine_finished(philo->data))
 		return ;
 	pthread_mutex_lock(&philo->lock);
 	philo->status = SLEEPING;
@@ -27,41 +25,33 @@ void	sleeping(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
-	if (routine_finished(philo->data))
-		return ;
-	if (is_dead(philo))
+	if (is_dead(philo) || routine_finished(philo->data))
 		return ;
 	pthread_mutex_lock(&philo->lock);
 	philo->status = THINKING;
 	pthread_mutex_unlock(&philo->lock);
 	logs(philo, THINKING);
-	wait_time(philo, 5);
+	wait_time(philo, 2);
 }
 
 void	eating(t_philo *philo)
 {
-	if (routine_finished(philo->data))
-		return ;
-	if (is_dead(philo))
+	if (is_dead(philo) || routine_finished(philo->data))
 		return ;
 	if (!grab_forks(philo))
 		return ;
-/*  	if (routine_finished(philo->data))
-	{
-		pthread_mutex_unlock(philo->fork[LEFT]);
-		pthread_mutex_unlock(philo->fork[RIGHT]);
+	if (is_dead(philo) || routine_finished(philo->data))
 		return ;
-	} */
 	logs(philo, EATING);
+	philo->time_to_die = get_time() + philo->data->death_time;
 	pthread_mutex_lock(&philo->lock);
 	philo->status = EATING;
-	philo->time_to_die = get_time() + philo->data->death_time;
 	pthread_mutex_unlock(&philo->lock);
 	wait_time(philo, philo->data->eat_time);
-	pthread_mutex_unlock(philo->fork[LEFT]);
-	pthread_mutex_unlock(philo->fork[RIGHT]);
 	pthread_mutex_lock(&philo->lock);
 	philo->meal_count++;
 	pthread_mutex_unlock(&philo->lock);
+	pthread_mutex_unlock(philo->fork[LEFT]);
+	pthread_mutex_unlock(philo->fork[RIGHT]);
 	return ;
 }
