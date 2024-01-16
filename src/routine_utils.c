@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:41:13 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/15 16:43:24 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:44:22 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ bool	check_meals(t_philo *philo)
 	{
 		philo->full = true;
 		philo->data->philos_full++;
-		//printf("====== PHILO %d IS FULL | PHILOS FULL: %d =======\n", philo->id, philo->data->philos_full);
 	}
 	if (philo->data->philo_num == philo->data->philos_full)
 		return (true);
@@ -78,7 +77,7 @@ bool	check_philo_status(t_philo *philo)
 
 bool	is_dead(t_philo *philo)
 {
-	if (get_time() > philo->time_to_die)
+	if (get_time() >= philo->time_to_die)
 	{
 		pthread_mutex_lock(&philo->lock);
 		if (philo->status != DEAD)

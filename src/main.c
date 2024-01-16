@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:34:50 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/12 17:00:14 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:44:30 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 
 	if ((ac != 5 && ac != 6) || check_input(av))
 	{
-		printf("Error: Invalid arguments.\n");
+		printf("ERROR: Invalid arguments.\n");
 		return (1);
 	}
 	data = init_data(ac, av);
