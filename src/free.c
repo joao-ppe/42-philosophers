@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:18 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/12 17:02:34 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/01/17 12:32:50 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_data(t_data *data)
 	while (++i < data->philo_num)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(&data->philos->lock);
+		pthread_mutex_destroy(&data->philos[i].lock);
 	}
 	pthread_mutex_destroy(&data->lock);
 	pthread_mutex_destroy(&data->log);
