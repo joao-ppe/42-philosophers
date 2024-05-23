@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:20:16 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/16 16:47:01 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:46:50 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	*solo_rout(void *philosopher)
 	philo->time_to_die = philo->data->death_time + philo->data->start_time;
 	pthread_mutex_lock(philo->fork[LEFT]);
 	logs(philo, FORK);
+	pthread_mutex_unlock(philo->fork[LEFT]);
 	wait_time(philo, philo->data->death_time);
 	is_dead(philo);
 	return (NULL);

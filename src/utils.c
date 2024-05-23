@@ -6,7 +6,7 @@
 /*   By: joao-ppe <joao-ppe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:42:53 by joao-ppe          #+#    #+#             */
-/*   Updated: 2024/01/15 16:39:29 by joao-ppe         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:49:10 by joao-ppe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,18 @@ void	logs(t_philo *philo, int status)
 	pthread_mutex_lock(&philo->data->log);
 	if (status == EATING && !routine_finished(philo->data))
 		printf("%lu %d is eating\n",
-			(get_time() - philo->data->start_time), philo->id);
+			(get_time() - philo->data->start_time), philo->id + 1);
 	else if (status == THINKING && !routine_finished(philo->data))
 		printf("%lu %d is thinking\n",
-			(get_time() - philo->data->start_time), philo->id);
+			(get_time() - philo->data->start_time), philo->id + 1);
 	else if (status == SLEEPING && !routine_finished(philo->data))
 		printf("%lu %d is sleeping\n",
-			(get_time() - philo->data->start_time), philo->id);
+			(get_time() - philo->data->start_time), philo->id + 1);
 	else if (status == FORK && !routine_finished(philo->data))
 		printf("%lu %d has taken a fork\n",
-			(get_time() - philo->data->start_time), philo->id);
+			(get_time() - philo->data->start_time), philo->id + 1);
 	else if (status == DEAD)
 		printf("%lu %d died\n",
-			(get_time() - philo->data->start_time), philo->id);
+			(get_time() - philo->data->start_time), philo->id + 1);
 	pthread_mutex_unlock(&philo->data->log);
 }
