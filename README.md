@@ -5,12 +5,13 @@
 	<a href="#about">About</a> •
 	<a href="#how-to-use">How to use</a> •
 	<a href="#examples">Examples</a> •
+	<a href="/en.subject.pdf">Subject</a> •
 	<a href="#norminette">Norminette</a>
 </p>
 
-## ABOUT ([Subject](/.github/en.subject.pdf))
+## ABOUT ([Subject](/en.subject.pdf))
 
-The project involves creating a C program to simulate a scenario with philosophers seated at a round table. These philosophers alternate between eating, thinking, and sleeping. To eat, they require two forks. If a philosopher doesn't start eating within a specified time, they will starve to death. The program takes various command-line arguments, including the number of philosophers, time limits for actions, and an optional limit on how many times each philosopher must eat. Philosophers cannot communicate, and global variables are not allowed. The program must log philosopher activities with timestamps and handle the simulation's termination conditions.
+The project involves creating a C program to simulate a scenario with philosophers seated at a round table. These philosophers alternate between eating, thinking, and sleeping. To eat, they require two forks. If a philosopher doesn't start eating within a specified time, they will starve to death. The program takes various command-line arguments, including the number of philosophers, time limits for actions, and an optional limit on how many times each philosopher must eat. Philosophers cannot communicate with eachother, and global variables are not allowed. The program must log philosopher activities with timestamps and handle the simulation's termination conditions.
 
 **Logging Requirements:**
 - The program must log the state changes of each philosopher, including taking a fork, eating, sleeping, and thinking.
@@ -32,7 +33,7 @@ In summary, this project involves creating a C program that simulates philosophe
 #### COMPILATION AND EXECUTION
 #### 1º - Clone the repository
 ```bash
-$ ./git clone git@github.com:diocode/42-Philosophers.git
+$ ./git clone git@github.com:joao-ppe/42-philosophers.git
 ```
 
 #### 2º - Enter the project folder and run `make`
