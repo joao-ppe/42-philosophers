@@ -1,4 +1,4 @@
-# 42 PHILOSOPHERS
+<p align="center"> # 42 PHILOSOPHERS </p>
 <p align="center">
 	<a href="#about">About</a> •
 	<a href="#how-to-use">How to use</a> •
